@@ -14,44 +14,39 @@ function getComputerChoice() {
     }
 }
 
-function playRound(p, cS) {
-    let pS = p.toLowerCase().replace(p[0], p[0].toUpperCase());
+let plaScore = 0;
+let comScore = 0;
+
+function playRound(pS, cS) {
+    let p1 = document.querySelector('#p1');
+    let p2 = document.querySelector('#p2');
+    let p3 = document.querySelector('#p3');
 
     if (pS === cS) {
-        console.log("It's a tie");
-        return 'T';
+        p1.textContent = "It's a tie";
     } else if (pS === 'Rock' && cS === 'Scissors' || pS === 'Paper' && cS === 'Rock' || pS === 'Scissors' && cS === 'Paper') {
-        console.log(`You win! ${pS} beats ${cS}`);
-        return 'W';
+        p1.textContent = `You win! ${pS} beats ${cS}`;
+        plaScore++;
     } else {
-        console.log(`You lose! ${cS} beats ${pS}`);
-        return 'L';
+        p1.textContent = `You lose! ${cS} beats ${pS}`;
+        comScore++;
+    }
+
+    p2.textContent = `Player: ${plaScore} Computer: ${comScore}`;
+
+    if (plaScore === 5) {
+        p3.textContent = `You win the game!`;
+    } else if (comScore === 5) {
+        p3.textContent = `You lost the game!`;
     }
 }
 
 function game() {
-    let plaScore = 0;
-    let comScore = 0;
 
-    for (let x = 0; x < 5; x++) {
-        let y = playRound(prompt('Player: '), getComputerChoice());
-
-        if (y === 'W') {
-            plaScore++;
-        } else if (y === 'L') {
-            comScore++;
-        }
-    }
-
-    let text2 = `Player: ${plaScore} Computer: ${comScore}`;
-
-    if (plaScore > comScore) {
-        console.log(`You win the game! ` + text2);
-    } else if (comScore > plaScore) {
-        console.log(`You lost the game! ` + text2);
-    } else {
-        console.log(`It's a tie! ` + text2);
-    }
+    let buttons = document.querySelector('#buttons');
+    buttons.addEventListener('click', function (e) {
+        playRound(e.target.id, getComputerChoice())
+    });
 }
 
 game();
